@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.IServices
+namespace Domain.Enums
 {
-    public interface IFileService
+    public enum Priority
     {
+        Low,
+        Normal,
+        High
     }
 }

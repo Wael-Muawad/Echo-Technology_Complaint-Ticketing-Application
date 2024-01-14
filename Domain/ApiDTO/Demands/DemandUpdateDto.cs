@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.IServices
+namespace Domain.ApiDTO.Demands
 {
-    public interface IFileService
+    public class DemandUpdateDto
     {
     }
 }

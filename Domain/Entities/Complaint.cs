@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace Domain.Entities
         public string IDFilePDFPath { get; set; }
 
         public string ComplaintDetails { get; set; }
-        public bool IsApproved { get; set; }
+        public Priority Priority { get; set; } = Priority.Normal;
+        public ComplaintStatus ComplaintStatus { get; set; } = ComplaintStatus.InProgress;
 
 
         //navigations

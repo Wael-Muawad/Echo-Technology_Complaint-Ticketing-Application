@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.IServices
 {
-    public class DemandService
+    public interface IAuthService
     {
+        public Task<bool> IsEmailExist(string email);
+
+        public Task<bool> IsValidLogin(string username, string password);
     }
 }

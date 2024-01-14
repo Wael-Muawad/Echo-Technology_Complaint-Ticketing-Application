@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.IServices
+namespace Domain.ApiDTO.Complaints
 {
-    public interface IFileService
+    public class ComplaintCreateDto
     {
     }
 }

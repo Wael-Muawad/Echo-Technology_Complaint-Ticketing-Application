@@ -1,5 +1,9 @@
-﻿using Domain.ApiDTO.APIResponse;
+﻿using AutoMapper;
+using Domain.ApiDTO.APIResponse;
 using Domain.ApiDTO.Complaints;
+using Domain.ApiDTO.Demands;
+using Domain.Entities;
+using Domain.IRepositories;
 using Domain.IServices;
 using System;
 using System.Collections.Generic;
@@ -11,24 +15,114 @@ namespace Application.Services
 {
     public class ComplaintService : IComplaintService
     {
-        public Task<ApiResponseDto<ComplaintReadDto>> Create(ComplaintCreateDto createDto)
+        private readonly IComplaintRepo _complaintRepo;
+        private readonly IMapper _mapper;
+
+        public ComplaintService(IComplaintRepo complaintRepo, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _complaintRepo = complaintRepo;
+            _mapper = mapper;
         }
 
-        public Task<ApiResponseDto<bool>> Delete(int id)
+        public async Task<ApiResponseDto<ComplaintReadDto>> Create(ComplaintCreateDto createDto)
         {
-            throw new NotImplementedException();
+            var apiResponseDto = new ApiResponseDto<ComplaintReadDto>();
+
+            if (createDto == null)
+            {
+                apiResponseDto.SetFailureWithError("Error On Create", "The create object is null");
+                return apiResponseDto;
+            }
+
+            try
+            {
+                var entity = _mapper.Map<Complaint>(createDto);
+                await _complaintRepo.Create(entity);
+                var isChanged = await SaveChanges();
+
+                if (isChanged)
+                {
+                    var readDto = _mapper.Map<ComplaintReadDto>(entity);
+                    apiResponseDto.SetSuccessWithPayload(readDto);
+                }
+                else
+                    apiResponseDto.SetFailureWithError("Error On Create", "Faield to create");
+            }
+            catch (Exception ex)
+            {
+                apiResponseDto.SetFailureWithError("Error On Create", ex.Message);
+            }
+
+            return apiResponseDto;
         }
 
-        public Task<ApiResponseDto<IEnumerable<ComplaintReadDto>>> GetAll()
+        public async Task<ApiResponseDto<bool>> Delete(int id)
         {
-            throw new NotImplementedException();
+            var apiResponseDto = new ApiResponseDto<bool>();
+
+            try
+            {
+                await  _complaintRepo.Delete(id);
+                var isChanged = await SaveChanges();
+
+                if (isChanged)
+                    apiResponseDto.SetSuccessWithPayload(true);
+                else
+                    apiResponseDto.SetFailureWithError("Error On Delete", "Faield to SaveChanges in delete");
+            }
+            catch (Exception ex)
+            {
+                apiResponseDto.SetFailureWithError("Error On Delete", ex.Message);
+            }
+
+            return apiResponseDto;
         }
 
-        public Task<ApiResponseDto<ComplaintReadDto>> GetByID(int id)
+        public async Task<ApiResponseDto<IEnumerable<ComplaintReadDto>>> GetAll()
         {
-            throw new NotImplementedException();
+            var apiResponseDto = new ApiResponseDto<IEnumerable<ComplaintReadDto>>();
+
+            try
+            {
+                var entities = await _complaintRepo.GetAll();
+                if (entities is null)
+                    apiResponseDto.SetFailureWithError("Error On Get", "The entity is null");
+                else
+                {
+                    var result = entities.Select(e => _mapper.Map<ComplaintReadDto>(e));
+                    apiResponseDto.SetSuccessWithPayload(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResponseDto.SetFailureWithError("Error On Get", ex.Message);
+            }
+
+            return apiResponseDto;
+        }
+
+        public async Task<ApiResponseDto<ComplaintReadDto>> GetByID(int id)
+        {
+            var apiResponseDto = new ApiResponseDto<ComplaintReadDto>();
+
+            try
+            {
+                var entity = await _complaintRepo.GetByID(id);
+                if (entity is null)
+                    apiResponseDto.SetFailureWithError("Error On Get", $"entity of id {id} is not found");
+
+                else
+                {
+                    var readeDto = _mapper.Map<ComplaintReadDto>(entity);
+                    apiResponseDto.SetSuccessWithPayload(readeDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResponseDto.SetFailureWithError("Error On Get", ex.Message);
+            }
+
+            return apiResponseDto;
         }
 
         public Task<ApiResponseDto<ComplaintReadDto>> GetByName(string name)
@@ -36,14 +130,41 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            throw new NotImplementedException();
+            return await _complaintRepo.SaveChanges();
         }
 
-        public Task<ApiResponseDto<ComplaintReadDto>> Update(ComplaintUpdateDto updateDto)
+        public async Task<ApiResponseDto<ComplaintReadDto>> Update(ComplaintUpdateDto updateDto)
         {
-            throw new NotImplementedException();
+            var apiResponseDto = new ApiResponseDto<ComplaintReadDto>();
+
+            if (updateDto == null)
+            {
+                apiResponseDto.SetFailureWithError("Error On Update", "The entity is null");
+                return apiResponseDto;
+            }
+
+            try
+            {
+                var entity = _mapper.Map<Complaint>(updateDto);
+                await _complaintRepo.Update(entity);
+                var isChanged = await SaveChanges();
+
+                if (isChanged)
+                {
+                    var readDto = _mapper.Map<ComplaintReadDto>(updateDto);
+                    apiResponseDto.SetSuccessWithPayload(readDto);
+                }
+                else
+                    apiResponseDto.SetFailureWithError("Error On Update", "Faield to update");
+            }
+            catch (Exception ex)
+            {
+                apiResponseDto.SetFailureWithError("Error On Update", ex.Message);
+            }
+
+            return apiResponseDto;
         }
     }
 }

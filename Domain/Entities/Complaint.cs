@@ -14,7 +14,7 @@ namespace Domain.Entities
         public string UserName { get; set; }
         public string UserNumber { get; set; }
 
-        public string IDFilePDFPath { get; set; }
+        public string FilePath { get; set; }
 
         public string ComplaintDetails { get; set; }
         public Priority Priority { get; set; } = Priority.Normal;

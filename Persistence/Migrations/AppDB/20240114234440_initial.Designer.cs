@@ -12,7 +12,7 @@ using Persistence.AppContexts.Contexts;
 namespace Persistence.Migrations.AppDB
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240114224339_initial")]
+    [Migration("20240114234440_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -46,7 +46,7 @@ namespace Persistence.Migrations.AppDB
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IDFilePDFPath")
+                    b.Property<string>("FilePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

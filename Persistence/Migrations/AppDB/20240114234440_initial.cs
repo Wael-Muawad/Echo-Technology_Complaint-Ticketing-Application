@@ -19,7 +19,7 @@ namespace Persistence.Migrations.AppDB
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IDFilePDFPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ComplaintDetails = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false),
                     ComplaintStatus = table.Column<int>(type: "int", nullable: false),

@@ -13,13 +13,13 @@ namespace Application.AutoMapperProfiles
     {
         public UsersProfile()
         {
-            CreateMap<UserCreateDto, User>();
-            CreateMap<UserUpdateDto, User>();
-            CreateMap<UserReadDto, User>();
+            CreateMap<UserCreateDto, AppUser>();
+            CreateMap<UserUpdateDto, AppUser>();
+            CreateMap<UserReadDto, AppUser>();
 
-            CreateMap<User, UserCreateDto>();
-            CreateMap<User, UserUpdateDto>();
-            CreateMap<User, UserReadDto>();
+            CreateMap<AppUser, UserCreateDto>();
+            CreateMap<AppUser, UserUpdateDto>();
+            CreateMap<AppUser, UserReadDto>();
         }
     }
 }

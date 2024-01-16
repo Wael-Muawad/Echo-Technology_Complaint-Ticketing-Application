@@ -38,6 +38,7 @@ namespace Application.Services
             try
             {
                 var entity = _mapper.Map<Demand>(createDto);
+                entity.CreatedAt = DateTime.UtcNow;
                 await _demandRepo.Create(entity);
                 var isChanged = await SaveChanges();
 
@@ -52,6 +53,9 @@ namespace Application.Services
             catch (Exception ex)
             {
                 apiResponseDto.SetFailureWithError("Error On Create", ex.Message);
+                if (ex.InnerException != null)
+                    apiResponseDto.SetFailureWithError("InnerException", ex.InnerException.Message);
+
             }
 
             return apiResponseDto;
@@ -74,6 +78,8 @@ namespace Application.Services
             catch (Exception ex)
             {
                 apiResponseDto.SetFailureWithError("Error On Delete", ex.Message);
+                if (ex.InnerException != null)
+                    apiResponseDto.SetFailureWithError("InnerException", ex.InnerException.Message);
             }
 
             return apiResponseDto;
@@ -97,6 +103,33 @@ namespace Application.Services
             catch (Exception ex)
             {
                 apiResponseDto.SetFailureWithError("Error On Get", ex.Message);
+                if (ex.InnerException != null)
+                    apiResponseDto.SetFailureWithError("InnerException", ex.InnerException.Message);
+            }
+
+            return apiResponseDto;
+        }
+
+        public async Task<ApiResponseDto<IEnumerable<DemandReadDto>>> GetAllByComplaint(int complaintID)
+        {
+            var apiResponseDto = new ApiResponseDto<IEnumerable<DemandReadDto>>();
+
+            try
+            {
+                var entities = await _demandRepo.GetAllByComplaint(complaintID);
+                if (entities is null)
+                    apiResponseDto.SetFailureWithError("Error On Get", "The entity is null");
+                else
+                {
+                    var result = entities.Select(e => _mapper.Map<DemandReadDto>(e));
+                    apiResponseDto.SetSuccessWithPayload(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResponseDto.SetFailureWithError("Error On Get", ex.Message);
+                if (ex.InnerException != null)
+                    apiResponseDto.SetFailureWithError("InnerException", ex.InnerException.Message);
             }
 
             return apiResponseDto;
@@ -121,6 +154,8 @@ namespace Application.Services
             catch (Exception ex)
             {
                 apiResponseDto.SetFailureWithError("Error On Get", ex.Message);
+                if (ex.InnerException != null)
+                    apiResponseDto.SetFailureWithError("InnerException", ex.InnerException.Message);
             }
 
             return apiResponseDto;
@@ -149,6 +184,7 @@ namespace Application.Services
             try
             {
                 var entity = _mapper.Map<Demand>(updateDto);
+                entity.UpdatedAt = DateTime.UtcNow;
                 await _demandRepo.Update(entity);
                 var isChanged = await SaveChanges();
 
@@ -163,6 +199,8 @@ namespace Application.Services
             catch (Exception ex)
             {
                 apiResponseDto.SetFailureWithError("Error On Update", ex.Message);
+                if (ex.InnerException != null)
+                    apiResponseDto.SetFailureWithError("InnerException", ex.InnerException.Message);
             }
 
             return apiResponseDto;

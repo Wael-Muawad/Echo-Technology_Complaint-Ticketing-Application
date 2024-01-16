@@ -10,19 +10,17 @@ namespace Domain.Entities
 {
     public class Complaint : BaseEntity
     {
-
-        public string UserName { get; set; }
-        public string UserNumber { get; set; }
-
         public string FilePath { get; set; }
 
         public string ComplaintDetails { get; set; }
         public Priority Priority { get; set; } = Priority.Normal;
         public ComplaintStatus ComplaintStatus { get; set; } = ComplaintStatus.InProgress;
 
+        public int UserID { get; set; }
 
         //navigations
         public IEnumerable<Demand> Demands { get; set; }
+        public AppUser User { get; set; }
 
     }
 }

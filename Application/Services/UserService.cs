@@ -14,11 +14,11 @@ namespace Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<User> userManager, RoleManager<Role> roleManager, IMapper mapper)
+        public UserService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -129,17 +129,17 @@ namespace Application.Services
         }
 
 
-        internal void UpdateUserProperties(User userToEdit, UserUpdateDto updateDto)
+        internal void UpdateUserProperties(AppUser userToEdit, UserUpdateDto updateDto)
         {
-            var hasher = new PasswordHasher<User>();
+            var hasher = new PasswordHasher<AppUser>();
 
             userToEdit.PhoneNumber = updateDto.PhoneNumber;
             userToEdit.PasswordHash = hasher.HashPassword(userToEdit, updateDto.Password);
         }
 
-        internal User GetNewIdentityUser(UserCreateDto createDto)
+        internal AppUser GetNewIdentityUser(UserCreateDto createDto)
         {
-            var user = new User
+            var user = new AppUser
             {
                 UserName = createDto.UserName,
                 Email = createDto.Email,
@@ -148,7 +148,7 @@ namespace Application.Services
             return user;
         }
 
-        internal async Task AddUserToUserRole(User user, UserReadDto userCreateDto, ApiResponseDto<UserReadDto> apiResponseDto)
+        internal async Task AddUserToUserRole(AppUser user, UserReadDto userCreateDto, ApiResponseDto<UserReadDto> apiResponseDto)
         {
             var identityResult = await _userManager.AddToRoleAsync(user, "User");
             if (identityResult.Succeeded)

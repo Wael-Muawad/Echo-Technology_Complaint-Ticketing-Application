@@ -24,12 +24,12 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Create(UserCreateDto userCreateDto)
         {
             var isEmailExist = await _authService.IsEmailExist(userCreateDto.Email);
-            if (isEmailExist) 
+            if (isEmailExist)
             {
                 var apiRespone = new ApiResponseDto<bool>();
                 apiRespone.SetFailureWithError("error", "email already exist.");
                 return Conflict(apiRespone);
-            }             
+            }
 
             var result = await _userService.Create(userCreateDto);
 
@@ -53,7 +53,7 @@ namespace WebApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(string email, UserUpdateDto userUpdateDto)
         {
-            userUpdateDto.SetEmail(email);   
+            userUpdateDto.SetEmail(email);
             var isEmailExist = await _authService.IsEmailExist(email);
             if (!isEmailExist)
             {

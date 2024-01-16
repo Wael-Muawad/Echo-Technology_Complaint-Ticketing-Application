@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,14 +11,9 @@ namespace Domain.ApiDTO.Complaints
 {
     public class ComplaintCreateDto
     {
-        private string userName;
-        private string userNumber;
+        private int userID;
+        private string filePath;
         private ComplaintStatus ComplaintStatus { get; set; } = ComplaintStatus.InProgress;
-
-
-
-        [Required]
-        public string FilePath { get; set; }
 
         [Required]
         public string ComplaintDetails { get; set; }
@@ -25,25 +21,25 @@ namespace Domain.ApiDTO.Complaints
         [Required]
         public Priority Priority { get; set; } = Priority.Normal;
 
-        
-        public string GetUserName()
+        public IFormFile File { get; set; }
+
+
+        public string GetFilePath()
         {
-            return userName;
+            return filePath;
+        }
+        public void SetFilePath(string value)
+        {
+            filePath = value;
         }
 
-        public void SetUserName(string value)
+        public int GetUserID()
         {
-            userName = value;
+            return userID;
         }
-
-        public string GetUserNumber()
+        public void SetUserID(int value)
         {
-            return userNumber;
-        }
-
-        public void SetUserNumber(string value)
-        {
-            userNumber = value;
+            userID = value;
         }
     }
 }

@@ -25,10 +25,14 @@ namespace Persistence.utils
 
             //var securityConnectionString = configuration.GetConnectionString("SecurityConnection") ??
             //    throw new InvalidOperationException("Connection string 'SecurityConnection' not found.");
-            services.AddDbContextFactory<AppDBContext>();
-            services.AddDbContextFactory<IdentityContext>();
+            //services.AddDbContextFactory<IdentityContext>();
 
-            services.AddIdentity<User, Role>().AddEntityFrameworkStores<IdentityContext>();
+            services.AddAuthorization();
+            services.AddDbContextFactory<AppDBContext>();
+
+            services.AddIdentityApiEndpoints<AppUser>()
+                .AddRoles<AppRole>()
+                .AddEntityFrameworkStores<AppDBContext>();
 
             //Register Repositories
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

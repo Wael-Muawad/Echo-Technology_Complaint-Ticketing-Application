@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Persistence.AppContexts.ContextFactory
 {
-    public class IdentityDBContextFactory : IDesignTimeDbContextFactory<IdentityContext>
-    {
-        public IdentityContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<IdentityContext>();
-            optionsBuilder.UseSqlServer(
-                "Data Source=.;Initial Catalog=ComplaintTicketingIdentityDB;Integrated Security=True;TrustServerCertificate=True"
-                );
+    //public class IdentityDBContextFactory : IDesignTimeDbContextFactory<IdentityContext>
+    //{
+    //    public IdentityContext CreateDbContext(string[] args)
+    //    {
+    //        var optionsBuilder = new DbContextOptionsBuilder<IdentityContext>();
+    //        optionsBuilder.UseSqlServer(
+    //            "Data Source=.;Initial Catalog=ComplaintTicketingIdentityDB;Integrated Security=True;TrustServerCertificate=True"
+    //            );
 
-            return new IdentityContext(optionsBuilder.Options);
-        }
-    }
+    //        return new IdentityContext(optionsBuilder.Options);
+    //    }
+    //}
 }

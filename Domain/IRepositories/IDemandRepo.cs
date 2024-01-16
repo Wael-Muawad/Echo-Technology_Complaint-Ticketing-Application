@@ -10,5 +10,7 @@ namespace Domain.IRepositories
 {
     public interface IDemandRepo : IGenericRepository<Demand>
     {
+
+        public Task<IEnumerable<Demand>> GetAllByComplaint(int complaintID);
     }
 }

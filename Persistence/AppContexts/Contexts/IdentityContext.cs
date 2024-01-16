@@ -11,26 +11,27 @@ using System.Threading.Tasks;
 
 namespace Persistence.AppContexts.Contexts
 {
-    public class IdentityContext : IdentityDbContext<User, Role, int>
-    {
-        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
-        {
-        }
+    //public class IdentityContext : IdentityDbContext<AppUser, AppRole, int>
+    //{
+    //    public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
+    //    {
+    //    }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //    {
+    //        base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlServer(
-                "Data Source=.;Initial Catalog=ComplaintTicketingIdentityDB;Integrated Security=True;TrustServerCertificate=True"
-                );
-        }
+    //        optionsBuilder.UseSqlServer(
+    //            "Data Source=.;Initial Catalog=ComplaintTicketingIdentityDB;Integrated Security=True;TrustServerCertificate=True"
+    //            );
+    //    }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
+    //    protected override void OnModelCreating(ModelBuilder builder)
+    //    {
+    //        base.OnModelCreating(builder);
 
-            builder.AddIdentitySeed();
-        }
-    }
+    //        builder.AddIdentitySeed();
+    //        //builder.AddIdentityRelations();
+    //    }
+    //}
 }

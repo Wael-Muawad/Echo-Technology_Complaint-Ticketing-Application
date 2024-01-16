@@ -18,18 +18,18 @@ namespace Persistence.utils
 
         public static void AddIdentitySeed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("IdentitySchema");
+            modelBuilder.HasDefaultSchema("App");
 
 
-            modelBuilder.Entity<Role>().HasData(
-                new Role { Id = 1, Name = "Admin", NormalizedName = "ADMIN" },
-                new Role { Id = 2, Name = "User", NormalizedName = "USER" }
+            modelBuilder.Entity<AppRole>().HasData(
+                new AppRole { Id = 1, Name = "Admin", NormalizedName = "ADMIN" },
+                new AppRole { Id = 2, Name = "User", NormalizedName = "USER" }
                 );
 
 
-            var hasher = new PasswordHasher<User>();
-            modelBuilder.Entity<User>().HasData(
-                new User
+            var hasher = new PasswordHasher<AppUser>();
+            modelBuilder.Entity<AppUser>().HasData(
+                new AppUser
                 {
                     Id = 1,
                     UserName = "admin",
@@ -45,6 +45,27 @@ namespace Persistence.utils
                 new IdentityUserRole<int> { UserId = 1, RoleId = 1 });
         }
 
+
+        //public static void AddAppRelations(this ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Complaint>()
+        //        .HasKey(e => e.ID);
+
+        //    modelBuilder.Entity<Complaint>()
+        //        .HasOne(e => e.User)
+        //        .WithMany(e => e.Complaints)
+        //        .HasForeignKey(e => e.UserID)
+        //        .IsRequired();
+        //}
+
+        //public static void AddIdentityRelations(this ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<User>()
+        //        .HasMany(u => u.Complaints)
+        //        .WithOne(u => u.User)
+        //        .HasForeignKey(u => u.UserID)
+        //        .IsRequired();
+        //}
 
     }
 }

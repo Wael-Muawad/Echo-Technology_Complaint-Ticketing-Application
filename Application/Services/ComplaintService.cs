@@ -37,6 +37,7 @@ namespace Application.Services
             try
             {
                 var entity = _mapper.Map<Complaint>(createDto);
+                entity.CreatedAt = DateTime.UtcNow;
                 await _complaintRepo.Create(entity);
                 var isChanged = await SaveChanges();
 
@@ -148,6 +149,7 @@ namespace Application.Services
             try
             {
                 var entity = _mapper.Map<Complaint>(updateDto);
+                entity.UpdatedAt = DateTime.UtcNow;
                 await _complaintRepo.Update(entity);
                 var isChanged = await SaveChanges();
 

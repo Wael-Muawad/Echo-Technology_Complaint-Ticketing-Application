@@ -11,10 +11,10 @@ namespace Application.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -29,6 +29,12 @@ namespace Application.Services
 
         public Task<bool> IsValidLogin(string username, string password)
         {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsUserLogedIn(string userEmail)
+        {
+            //_userManager.
             throw new NotImplementedException();
         }
     }

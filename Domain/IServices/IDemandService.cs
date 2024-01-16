@@ -11,5 +11,6 @@ namespace Domain.IServices
 {
     public interface IDemandService : IBaseService<DemandCreateDto, DemandUpdateDto, DemandReadDto>
     {
+        public Task<ApiResponseDto<IEnumerable<DemandReadDto>>> GetAllByComplaint(int complaintID);
     }
 }

@@ -12,8 +12,16 @@ namespace Persistence.Repositories
 {
     public class DemandRepo : GenericRepository<Demand>, IDemandRepo
     {
+        private readonly AppDBContext _context;
+
         public DemandRepo(AppDBContext dbContext) : base(dbContext)
         {
+            _context = dbContext;
+        }
+
+        public async Task<IEnumerable<Demand>> GetAllByComplaint(int complaintID)
+        {
+            return await _context.Demands.Where(d => d.ComplaintID == complaintID).ToListAsync(); 
         }
     }
 }

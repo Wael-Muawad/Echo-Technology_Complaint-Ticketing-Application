@@ -17,6 +17,6 @@ namespace Domain.ApiDTO.RefreshTokens
         public DateTime ExpiryDate { get; set; }
 
 
-        public AppUser User { get; set; }
+        public int UserId { get; set; }
     }
 }

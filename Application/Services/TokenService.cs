@@ -1,9 +1,11 @@
-﻿using Domain.ApiDTO.APIResponse;
+﻿using AutoMapper;
+using Domain.ApiDTO.APIResponse;
 using Domain.ApiDTO.Auth;
 using Domain.ApiDTO.RefreshTokens;
 using Domain.Common;
 using Domain.Entities;
 using Domain.IServices;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -21,16 +23,20 @@ namespace Application.Services
 
         private readonly JwtSettings _jwtSettings;
         private readonly TokenValidationParameters _tokenValidationParameters;
+        private readonly UserManager<AppUser> _userManager;
         private readonly IRefreshTokenService _refreshTokenService;
+        private readonly IMapper _mapper;
 
         public TokenService(
             JwtSettings jwtSettings,
             TokenValidationParameters tokenValidationParameters,
-            IRefreshTokenService refreshTokenService)
+            IRefreshTokenService refreshTokenService,
+            IMapper mapper)
         {
             _jwtSettings = jwtSettings;
             _tokenValidationParameters = tokenValidationParameters;
             _refreshTokenService = refreshTokenService;
+            _mapper = mapper;
         }
 
 
@@ -99,7 +105,7 @@ namespace Application.Services
 
             if (storedRedreshToken.IsRevoked)
             {
-                apiRespone.SetFailureWithError("error", "RefreshToken is not valid");
+                apiRespone.SetFailureWithError("error", "RefreshToken is being revoked");
                 return apiRespone;
             }
 
@@ -113,15 +119,29 @@ namespace Application.Services
             var jti = claimsFromToken.Claims.Single(JtiPredicate).Value;
             if (storedRedreshToken.JwtId != jti)
             {
+                apiRespone.SetFailureWithError("error", "RefreshToken is not match the access token");
+                return apiRespone;
                 //refreshToken is used
             }
 
             storedRedreshToken.IsUsed = true;
+            var refreshTokenUpdateDto = _mapper.Map<RefreshTokenUpdateDto>(storedRedreshToken);
+            var refreshTokenReadDto = await _refreshTokenService.Update(refreshTokenUpdateDto);
+
+            var appUser = await _userManager.FindByIdAsync(storedRedreshToken.UserId.ToString());
+
+            if (appUser is null)
+            {
+                apiRespone.SetFailureWithError("error", "user is not exist.");
+                return apiRespone;
+            }
+
+            var loginResponseDto = await CreateAccessTokens(appUser);
+            apiRespone.SetSuccessWithPayload(loginResponseDto);
 
 
-            return null;
+            return apiRespone;
         }
-
 
 
         public async Task<string> CreateRefreshToken(string tokenId, int userId)

@@ -1,6 +1,8 @@
 ﻿using Domain.ApiDTO.APIResponse;
 using Domain.ApiDTO.Users;
 using Domain.IServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +45,7 @@ namespace WebApi.Controllers
             return result.Success ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

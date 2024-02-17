@@ -1,4 +1,5 @@
-﻿using Domain.ApiDTO.Users;
+﻿using Domain.ApiDTO.APIResponse;
+using Domain.ApiDTO.Users;
 using Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,6 @@ namespace Domain.IServices
 {
     public interface IUserService : IBaseService<UserCreateDto, UserUpdateDto, UserReadDto>
     {
+        public Task<ApiResponseDto<UserReadDto>> GetUserByName(string email);
     }
 }

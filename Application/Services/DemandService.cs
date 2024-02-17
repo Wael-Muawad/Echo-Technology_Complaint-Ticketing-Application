@@ -15,12 +15,12 @@ namespace Application.Services
     public class DemandService : IDemandService
     {
 
-        private readonly IDemandRepo _demandRepo;
+        private readonly IDemandRepo _repo;
         private readonly IMapper _mapper;
 
         public DemandService(IDemandRepo demandRepo, IMapper mapper)
         {
-            _demandRepo = demandRepo;
+            _repo = demandRepo;
             _mapper = mapper;
         }
 
@@ -39,7 +39,7 @@ namespace Application.Services
             {
                 var entity = _mapper.Map<Demand>(createDto);
                 entity.CreatedAt = DateTime.UtcNow;
-                await _demandRepo.Create(entity);
+                await _repo.Create(entity);
                 var isChanged = await SaveChanges();
 
                 if (isChanged)
@@ -67,7 +67,7 @@ namespace Application.Services
 
             try
             {
-                await _demandRepo.Delete(id);
+                await _repo.Delete(id);
                 var isChanged = await SaveChanges();
 
                 if (isChanged)
@@ -91,7 +91,7 @@ namespace Application.Services
 
             try
             {
-                var entities = await _demandRepo.GetAll();
+                var entities = await _repo.GetAll();
                 if (entities is null)
                     apiResponseDto.SetFailureWithError("Error On Get", "The entity is null");
                 else
@@ -116,7 +116,7 @@ namespace Application.Services
 
             try
             {
-                var entities = await _demandRepo.GetAllByComplaint(complaintID);
+                var entities = await _repo.GetAllByComplaint(complaintID);
                 if (entities is null)
                     apiResponseDto.SetFailureWithError("Error On Get", "The entity is null");
                 else
@@ -141,7 +141,7 @@ namespace Application.Services
 
             try
             {
-                var entity = await _demandRepo.GetByID(id);
+                var entity = await _repo.GetByID(id);
                 if (entity is null)
                     apiResponseDto.SetFailureWithError("Error On Get", $"entity of id {id} is not found");
                 
@@ -168,7 +168,7 @@ namespace Application.Services
 
         public async Task<bool> SaveChanges()
         {
-            return await _demandRepo.SaveChanges();
+            return await _repo.SaveChanges();
         }
 
         public async Task<ApiResponseDto<DemandReadDto>> Update(DemandUpdateDto updateDto)
@@ -185,7 +185,7 @@ namespace Application.Services
             {
                 var entity = _mapper.Map<Demand>(updateDto);
                 entity.UpdatedAt = DateTime.UtcNow;
-                await _demandRepo.Update(entity);
+                await _repo.Update(entity);
                 var isChanged = await SaveChanges();
 
                 if (isChanged)

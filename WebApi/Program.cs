@@ -3,6 +3,7 @@ using Persistence.utils;
 using Application.Utils;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using WebApi.Utils;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,20 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(
-//    options =>
-//{
-//    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-//    {
-//        In = ParameterLocation.Header,
-//        Name = "Authorization",
-//        Type = SecuritySchemeType.ApiKey        
-//    });
 
-//    options.OperationFilter<SecurityRequirementsOperationFilter>();
-//}
-);
 
+builder.Services.AddSwaggerConfigurations();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.RegisterInfraStructure(builder.Configuration);
 builder.Services.RegisterApplecation();
@@ -40,10 +31,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGroup("/Identity").MapIdentityApi<AppUser>();
+//app.MapGroup("/Identity").MapIdentityApi<AppUser>();
 //app.MapIdentityApi<AppUser>();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

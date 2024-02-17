@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.utils
 {
-    public static class DependencyInjectionConfigurationExtensions
+    public static class DIConfigurationExtensions
     {
 
         public static void RegisterInfraStructure(this IServiceCollection services, IConfiguration configuration)
@@ -38,6 +38,7 @@ namespace Persistence.utils
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IComplaintRepo, ComplaintRepo>();
             services.AddScoped<IDemandRepo, DemandRepo>();
+            services.AddScoped<IRefreshTokenRepo, RefreshTokenRepo>();
         }
     }
 }

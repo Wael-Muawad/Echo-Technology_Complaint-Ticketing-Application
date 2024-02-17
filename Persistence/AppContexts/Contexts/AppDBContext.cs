@@ -35,6 +35,7 @@ namespace Persistence.AppContexts.Contexts
 
         public DbSet<Complaint> Complaints { get; set; }
         public DbSet<Demand> Demands { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     }
 }

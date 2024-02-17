@@ -8,11 +8,11 @@ namespace Domain.ApiDTO.APIResponse
 {
     public class ApiResponseDto<TData>
     {
-        public TData Data { get; set; }
-
         public bool Success { get; set; }
 
-        public Dictionary<string, string> Errors { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Errors { get; private set; } = new Dictionary<string, string>();
+
+        public TData Data { get; set; }
 
         public void SetFailureWithError(string errKey, string errMessage)
         {
@@ -24,6 +24,11 @@ namespace Domain.ApiDTO.APIResponse
         {
             Success = true;
             Data = data;
+        }
+
+        public void SetErrors(Dictionary<string, string> errors)
+        {
+            Errors = errors;
         }
     }
 }

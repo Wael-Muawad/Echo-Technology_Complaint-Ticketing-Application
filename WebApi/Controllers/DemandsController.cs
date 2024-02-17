@@ -10,7 +10,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    //[Authorize(Roles = "USER")]
+    [Authorize(Roles = "USER")]
     public class DemandsController : ControllerBase
     {
         private readonly IDemandService _demandService;

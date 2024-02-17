@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace Application.Utils
 {
-    public static class DependencyInjection
+    public static class DIConfigurationExtensions
     {
         public static void RegisterApplecation(this IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
 

@@ -123,6 +123,29 @@ namespace Application.Services
         {
             throw new NotImplementedException();
         }
+        public async Task<ApiResponseDto<UserReadDto>> GetUserByName(string email)
+        {
+            var apiResponseDto = new ApiResponseDto<UserReadDto>();
+
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                    apiResponseDto.SetFailureWithError("Error On Find", "User is not found.");
+                else
+                {
+                    var userReadDto = _mapper.Map<UserReadDto>(user);
+                    apiResponseDto.SetSuccessWithPayload(userReadDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResponseDto.SetFailureWithError("Error On Find", ex.Message);
+            }
+
+            return apiResponseDto;
+        }
+
         public Task<bool> SaveChanges()
         {
             throw new NotImplementedException();
@@ -162,5 +185,7 @@ namespace Application.Services
                 apiResponseDto.AddIdentityErrors(identityResult.Errors);
             }
         }
+
+        
     }
 }

@@ -15,18 +15,28 @@ namespace WebApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly ITokenService _tokenService;
         private readonly UserManager<AppUser> _userManager;
 
-        public AuthController(IAuthService authService, UserManager<AppUser> userManager)
+        public AuthController(IAuthService authService, UserManager<AppUser> userManager, ITokenService tokenService)
         {
             _authService = authService;
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequestDto userLoginDto)
         {
             var result = await _authService.Login(userLoginDto.Email, userLoginDto.Password);
+
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RefreshToken(RefreshAccessTokenRequestDto refreshTokenDto)
+        {
+            var result = await _tokenService.RefreshAccessTokens(refreshTokenDto.JwtToken, refreshTokenDto.RefreshToken);
 
             return result.Success ? Ok(result) : BadRequest(result);
         }

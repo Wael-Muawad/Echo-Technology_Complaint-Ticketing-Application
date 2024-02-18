@@ -17,6 +17,8 @@ namespace Application.AutoMapperProfiles
             CreateMap<RefreshTokenUpdateDto, RefreshToken>();
             CreateMap<RefreshTokenReadDto, RefreshToken>();
 
+            CreateMap<RefreshTokenReadDto, RefreshTokenUpdateDto>().ReverseMap();
+
             CreateMap<RefreshToken, RefreshTokenCreateDto>();
             CreateMap<RefreshToken, RefreshTokenUpdateDto>();
             CreateMap<RefreshToken, RefreshTokenReadDto>();

@@ -167,7 +167,7 @@ namespace Application.Services
 
 
 
-
+         
 
 
 
@@ -242,7 +242,7 @@ namespace Application.Services
         private bool IsTokenAlgorithmAndTypeMatching(SecurityToken token)
         {
             return (token is JwtSecurityToken jwtSecurityToken) &&
-                    jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature,
+                    jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
                     StringComparison.InvariantCultureIgnoreCase);
         }
 

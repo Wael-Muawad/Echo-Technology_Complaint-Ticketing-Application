@@ -13,7 +13,9 @@ namespace Domain.ApiDTO.RefreshTokens
         public string JwtId { get; set; }
         public bool IsUsed { get; set; }
         public bool IsRevoked { get; set; }
-        public DateTime CreationDate { get; set; }
         public DateTime ExpiryDate { get; set; }
+
+
+        public int UserId { get; set; }
     }
 }

@@ -4,11 +4,6 @@ using Domain.ApiDTO.RefreshTokens;
 using Domain.Entities;
 using Domain.IRepositories;
 using Domain.IServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {
@@ -97,9 +92,38 @@ namespace Application.Services
             return await _repo.SaveChanges();
         }
 
-        public Task<ApiResponseDto<RefreshTokenReadDto>> Update(RefreshTokenUpdateDto updateDto)
+        public async Task<ApiResponseDto<RefreshTokenReadDto>> Update(RefreshTokenUpdateDto updateDto)
         {
-            throw new NotImplementedException();
+            var apiResponse = new ApiResponseDto<RefreshTokenReadDto>();
+
+            if (updateDto == null)
+            {
+                apiResponse.SetFailureWithError("Error On Update", "The entity is null");
+                return apiResponse;
+            }
+            try
+            {
+                var entity = _mapper.Map<RefreshToken>(updateDto);
+                //entity.UpdatedAt = DateTime.UtcNow;
+                await _repo.Update(entity);
+                var isChanged = await SaveChanges();
+
+                if (isChanged)
+                {
+                    var readDto = _mapper.Map<RefreshTokenReadDto>(updateDto);
+                    apiResponse.SetSuccessWithPayload(readDto);
+                }
+                else
+                    apiResponse.SetFailureWithError("Error On Update", "Faield to update");
+            }
+            catch (Exception ex)
+            {
+                apiResponse.SetFailureWithError("Error On Update", ex.Message);
+                if (ex.InnerException != null)
+                    apiResponse.SetFailureWithError("InnerException", ex.InnerException.Message);
+            }
+            
+            return apiResponse;
         }
     }
 }

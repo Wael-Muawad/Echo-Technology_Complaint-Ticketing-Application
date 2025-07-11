@@ -34,7 +34,8 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.AsNoTracking()
+                               .ToListAsync();
         }
 
         public async Task<TEntity?> GetByID(object id)

@@ -31,12 +31,14 @@ namespace Application.Services
             JwtSettings jwtSettings,
             TokenValidationParameters tokenValidationParameters,
             IRefreshTokenService refreshTokenService,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<AppUser> userManager)
         {
             _jwtSettings = jwtSettings;
             _tokenValidationParameters = tokenValidationParameters;
             _refreshTokenService = refreshTokenService;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
 
@@ -128,6 +130,11 @@ namespace Application.Services
             var refreshTokenUpdateDto = _mapper.Map<RefreshTokenUpdateDto>(storedRedreshToken);
             var refreshTokenReadDto = await _refreshTokenService.Update(refreshTokenUpdateDto);
 
+            if (true)
+            {
+
+            }
+            //todo check the result and return an error 
             var appUser = await _userManager.FindByIdAsync(storedRedreshToken.UserId.ToString());
 
             if (appUser is null)

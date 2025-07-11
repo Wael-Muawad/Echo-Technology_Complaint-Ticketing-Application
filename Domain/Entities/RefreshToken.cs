@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Domain.Entities
 {
     public class RefreshToken
     {
-        public int Id { get; set; }
+        [Key]
         public string Token { get; set; }
         public string JwtId { get; set; }
         public bool IsUsed { get; set; }

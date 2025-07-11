@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace Domain.IServices
 {
-    public interface IRefreshTokenService :
-        IBaseService<RefreshTokenCreateDto, RefreshTokenUpdateDto, RefreshTokenReadDto>
+    public interface IRefreshTokenService : IBaseService<RefreshTokenCreateDto, RefreshTokenUpdateDto, RefreshTokenReadDto>
+
     {
 
         public Task<ApiResponseDto<RefreshTokenReadDto>> GetByToken(string token);

@@ -24,7 +24,7 @@ namespace Persistence.AppContexts.Contexts
             optionsBuilder.UseSqlServer(
                 "Data Source=.;Initial Catalog=ComplaintTicketingDB;Integrated Security=True;TrustServerCertificate=True"
                 );
-        }
+        }   
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

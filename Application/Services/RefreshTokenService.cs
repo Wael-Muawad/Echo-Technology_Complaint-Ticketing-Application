@@ -80,8 +80,7 @@ namespace Application.Services
             }
             catch (Exception ex)
             {
-
-                throw;
+                apiResponse.SetFailureWithError("error", ex.Message);
             }
 
             return apiResponse;

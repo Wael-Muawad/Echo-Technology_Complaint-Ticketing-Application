@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.IServices
 {
-    public interface ITokenService
+    public interface  ITokenService
     {
         public Task<LoginResponseDto> CreateAccessTokens(AppUser user);
 
